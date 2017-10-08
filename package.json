@@ -21,7 +21,8 @@
     }
   },
   "@std/esm": {
-    "esm": "js"
+    "esm": "js",
+    "cjs": true
   },
   "devDependencies": {
     "babel": "^6.23.0",
@@ -35,6 +36,8 @@
     "standard": "^10.0.3"
   },
   "dependencies": {
-    "@std/esm": "^0.8.3"
+    "@std/esm": "^0.8.3",
+    "chokidar": "^1.7.0",
+    "csv-parse": "^1.2.3"
   }
 }
