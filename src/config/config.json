@@ -1,3 +1,5 @@
 {
-  "name": "NodeMP HW App"
+  "name": "NodeMP HW App",
+  "hw3VendorCssUrl": "https://www.epam.com/etc/clientlibs/foundation/main.min.fc69c13add6eae57cd247a91c7e26a15.css",
+  "hw3BundleOutName": "bundle.css"
 }

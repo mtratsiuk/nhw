@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+require = require('@std/esm')(module)
+const { cli } = require('../src/utils/streams')
+
+cli(process.argv)
