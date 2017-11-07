@@ -1,16 +1,21 @@
-import config from 'nhw/config'
-import { User, Product } from 'nhw/models'
+import express from 'express'
+import bodyParser from 'body-parser'
 
-import path from 'path'
-import { CsvImporter } from 'nhw/utils/importers'
+import * as middlewares from 'nhw/middlewares'
+import * as controllers from 'nhw/controllers'
+import * as services from 'nhw/services'
 
-console.log(config.name)
+const app = express()
 
-/* eslint-disable */
-new User()
-new Product()
-/* eslint-enable */
+app.use(middlewares.cookieParser())
+app.use(middlewares.queryParser())
+app.use(bodyParser.json())
 
-const DATA_PATH = path.resolve(__dirname, '../data')
+const userService = services.user()
+const productService = services.product()
+const reviewService = services.review()
 
-new CsvImporter().importChanges(DATA_PATH, console.log)
+app.use('/products', controllers.product({ productService, reviewService }))
+app.use('/users', controllers.user({ userService }))
+
+export default app
