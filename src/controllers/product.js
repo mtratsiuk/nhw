@@ -1,31 +1,15 @@
 import controller from './controller'
 
-export default controller(({ router, productService, reviewService }) => {
-  router.get('/', async (req, res) => {
-    res.json(await productService.getAll())
-  })
+export default controller(
+  ({ router, baseApi, productService, reviewService }) => {
+    baseApi.getAll(router, productService)
 
-  router.get('/:id', async (req, res) => {
-    const product = await productService.getById(req.params.id)
+    baseApi.getOne(router, productService)
 
-    if (product) {
-      return res.json(product)
-    }
+    baseApi.postOne(router, productService)
 
-    res.status(404).end()
-  })
-
-  router.get('/:id/reviews', async (req, res) => {
-    res.json(await reviewService.getAllByProductId(req.params.id))
-  })
-
-  router.post('/', async (req, res) => {
-    const product = await productService.createOne(req.body)
-
-    if (product) {
-      return res.json(product)
-    }
-
-    res.status(400).end()
-  })
-})
+    router.get('/:id/reviews', async (req, res) => {
+      res.json(await reviewService.getAllByProductId(req.params.id))
+    })
+  }
+)

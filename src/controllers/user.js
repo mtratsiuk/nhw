@@ -1,7 +1,9 @@
 import controller from './controller'
 
-export default controller(({ router, userService }) => {
-  router.get('/', async (req, res) => {
-    res.json(await userService.getAll())
-  })
+export default controller(({ router, baseApi, userService }) => {
+  baseApi.getAll(router, userService)
+
+  baseApi.getOne(router, userService)
+
+  baseApi.postOne(router, userService)
 })
