@@ -1,3 +1,16 @@
-import BaseModel from './base'
+import Sequelize from 'sequelize'
 
-export default class User extends BaseModel {}
+export default function ({ sequelize }) {
+  const User = sequelize.define('user', {
+    name: {
+      type: Sequelize.STRING(128),
+      allowNull: false
+    }
+  })
+
+  User.associate = function ({ Review }) {
+    User.hasMany(Review)
+  }
+
+  return User
+}

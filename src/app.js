@@ -5,17 +5,25 @@ import * as middlewares from 'nhw/middlewares'
 import * as controllers from 'nhw/controllers'
 import * as services from 'nhw/services'
 
-const app = express()
+export default async function ({ port = process.env.NHW_PORT } = {}) {
+  const app = express()
 
-app.use(middlewares.cookieParser())
-app.use(middlewares.queryParser())
-app.use(bodyParser.json())
+  app.use(middlewares.cookieParser())
+  app.use(middlewares.queryParser())
+  app.use(bodyParser.json())
 
-const userService = services.user()
-const productService = services.product()
-const reviewService = services.review()
+  const dbContext = await services.createDbContext()
+  const userService = services.user({ dbContext })
+  const productService = services.product({ dbContext })
+  const reviewService = services.review({ dbContext })
 
-app.use('/products', controllers.product({ productService, reviewService }))
-app.use('/users', controllers.user({ userService }))
+  app.use('/products', controllers.product({ productService, reviewService }))
+  app.use('/users', controllers.user({ userService }))
+  app.use('/reviews', controllers.review({ reviewService }))
 
-export default app
+  app.use(middlewares.errorHandler())
+
+  app.listen(port, () => console.log(`App listening on port ${port}`))
+
+  return app
+}

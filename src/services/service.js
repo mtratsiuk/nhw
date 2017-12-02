@@ -1,23 +1,25 @@
-export default function (source, service = () => ({})) {
+export default function (model, service = () => ({})) {
   return function (dependencies = {}) {
+    const Model = dependencies.dbContext[model]
+
     return {
       getAll,
       getById,
       createOne,
-      ...service(dependencies)
+      ...service({ ...dependencies, [model]: Model })
     }
 
     async function getAll () {
-      return [...source]
+      return Model.findAll()
     }
 
     async function getById (id) {
-      return source.find(x => x.id === +id)
+      return Model.findById(id)
     }
 
     async function createOne (data) {
-      source.push(data)
-      return data
+      const created = await Model.create({ ...data, id: null })
+      return created
     }
   }
 }
