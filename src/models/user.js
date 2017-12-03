@@ -1,16 +1,35 @@
 import Sequelize from 'sequelize'
+import Model from './model'
 
-export default function ({ sequelize }) {
-  const User = sequelize.define('user', {
-    name: {
-      type: Sequelize.STRING(128),
-      allowNull: false
+export default class User extends Model {
+  static fields () {
+    return {
+      name: {
+        type: Sequelize.STRING(128),
+        unique: true,
+        allowNull: false
+      },
+      password: {
+        type: Sequelize.STRING(60),
+        allowNull: false
+      }
     }
-  })
-
-  User.associate = function ({ Review }) {
-    User.hasMany(Review)
   }
 
-  return User
+  static associate ({ Review }) {
+    this.hasMany(Review)
+  }
+
+  toDto () {
+    const dto = {
+      ...super.toDto(),
+      name: this.name
+    }
+
+    if (this.reviews) {
+      dto.reviews = this.reviews.map(x => x.toDto())
+    }
+
+    return dto
+  }
 }

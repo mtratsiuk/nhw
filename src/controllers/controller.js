@@ -10,10 +10,10 @@ const baseApi = {
 
   async getOne (router, service) {
     router.get('/:id', async (req, res, next) => {
-      const product = await service.getById(req.params.id)
+      const item = await service.getById(req.params.id)
 
-      if (product) {
-        return res.json(product)
+      if (item) {
+        return res.json(item)
       }
 
       next(new NotFoundError())

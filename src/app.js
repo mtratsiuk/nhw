@@ -12,15 +12,22 @@ export default async function ({ port = process.env.NHW_PORT } = {}) {
   app.use(middlewares.queryParser())
   app.use(bodyParser.json())
 
-  const dbContext = await services.createDbContext()
-  const userService = services.user({ dbContext })
-  const productService = services.product({ dbContext })
-  const reviewService = services.review({ dbContext })
+  const ctx = {}
+  ctx.dbContext = await services.createDbContext()
+  ctx.authService = services.auth()
+  ctx.userService = services.user(ctx)
+  ctx.productService = services.product(ctx)
+  ctx.reviewService = services.review(ctx)
 
-  app.use('/products', controllers.product({ productService, reviewService }))
-  app.use('/users', controllers.user({ userService }))
-  app.use('/reviews', controllers.review({ reviewService }))
+  app.use('/auth', controllers.auth(ctx))
 
+  app.use(middlewares.auth(ctx))
+
+  app.use('/products', controllers.product(ctx))
+  app.use('/users', controllers.user(ctx))
+  app.use('/reviews', controllers.review(ctx))
+
+  app.use((req, res) => res.status(404).end())
   app.use(middlewares.errorHandler())
 
   app.listen(port, () => console.log(`App listening on port ${port}`))

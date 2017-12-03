@@ -1,12 +1,22 @@
 import Sequelize from 'sequelize'
+import Model from './model'
 
-export default function ({ sequelize }) {
-  const Review = sequelize.define('review', {
-    text: {
-      type: Sequelize.STRING,
-      allowNull: false
+export default class Review extends Model {
+  static fields () {
+    return {
+      text: {
+        type: Sequelize.STRING,
+        allowNull: false
+      }
     }
-  })
+  }
 
-  return Review
+  toDto () {
+    return {
+      ...super.toDto(),
+      text: this.text,
+      userId: this.userId,
+      productId: this.productId
+    }
+  }
 }

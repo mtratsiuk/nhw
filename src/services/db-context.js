@@ -1,4 +1,5 @@
 import Sequelize from 'sequelize'
+import { camelCase } from 'lodash'
 import * as models from 'nhw/models'
 
 export default async function createDbContext () {
@@ -14,13 +15,23 @@ export default async function createDbContext () {
 
   const context = {}
 
-  for (let [name, model] of Object.entries(models)) {
-    context[name] = model({ sequelize })
+  for (let [name, Model] of Object.entries(models)) {
+    Model.init({
+      sequelize,
+      fields: Model.fields(),
+      options: {
+        tableName: camelCase(name),
+        modelName: camelCase(name),
+        ...Model.options()
+      }
+    })
+
+    context[name] = Model
   }
 
-  for (let model of Object.values(context)) {
-    if (typeof model.associate === 'function') {
-      model.associate(context)
+  for (let Model of Object.values(context)) {
+    if (typeof Model.associate === 'function') {
+      Model.associate(context)
     }
   }
 
