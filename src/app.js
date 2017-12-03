@@ -18,6 +18,7 @@ export default async function ({ port = process.env.NHW_PORT } = {}) {
   ctx.userService = services.user(ctx)
   ctx.productService = services.product(ctx)
   ctx.reviewService = services.review(ctx)
+  ctx.cityService = services.city(ctx)
 
   app.use('/auth', controllers.auth(ctx))
 
@@ -26,6 +27,7 @@ export default async function ({ port = process.env.NHW_PORT } = {}) {
   app.use('/products', controllers.product(ctx))
   app.use('/users', controllers.user(ctx))
   app.use('/reviews', controllers.review(ctx))
+  app.use('/cities', controllers.city(ctx))
 
   app.use((req, res) => res.status(404).end())
   app.use(middlewares.errorHandler())
