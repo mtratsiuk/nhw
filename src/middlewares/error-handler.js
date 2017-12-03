@@ -6,6 +6,6 @@ export default function errorHandler () {
       return res.status(error.status || 500).json(error.format())
     }
 
-    res.status(500).end()
+    res.status(500).json(process.env.NHW_IS_DEV ? error : {})
   }
 }
