@@ -6,9 +6,10 @@
   "license": "MIT",
   "scripts": {
     "start": "node -r dotenv/config -r @std/esm src/index.js",
-    "start:dev": "npm run postgres && sleep 1 && nodemon -r dotenv/config -r @std/esm --inspect --watch src src/index.js",
+    "start:dev": "npm run postgres && npm run mongo && sleep 1 && nodemon -r dotenv/config -r @std/esm --inspect --watch src src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postgres": "docker start nhw_pg || docker run --name nhw_pg --rm --env-file ./.env -d -p 5432:5432 postgres:alpine",
+    "mongo": "docker start nhw_mongo || docker run --name nhw_mongo --rm --env-file ./.env -d -p 27017:27017 mongo",
     "precommit": "lint-staged",
     "postinstall": "node -e \"var s='../src',d='node_modules/nhw',fs=require('fs');fs.exists(d,function(e){e||fs.symlinkSync(s,d,'dir')});\""
   },
@@ -48,6 +49,7 @@
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
     "lodash": "^4.17.4",
+    "mongoose": "^4.13.6",
     "pg": "^7.4.0",
     "pg-hstore": "^2.3.2",
     "request": "^2.83.0",

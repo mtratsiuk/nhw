@@ -28,6 +28,27 @@ const baseApi = {
         next(new BadArgumentsError(error))
       }
     })
+  },
+
+  async putOne (router, service) {
+    router.put('/:id', async (req, res, next) => {
+      try {
+        res.json(await service.updateOrCreateById(req.params.id, req.body))
+      } catch (error) {
+        next(new BadArgumentsError(error))
+      }
+    })
+  },
+
+  async deleteOne (router, service) {
+    router.delete('/:id', async (req, res, next) => {
+      try {
+        await service.deleteById(req.params.id)
+        res.status(204).end()
+      } catch (error) {
+        next(new BadArgumentsError(error))
+      }
+    })
   }
 }
 
