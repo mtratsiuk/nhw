@@ -1,6 +1,20 @@
 import Sequelize from 'sequelize'
 import Model from './model'
 
+/**
+ * @swagger
+ *
+ * definitions:
+ *   Product:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: number
+ *       name:
+ *         type: string
+ *       description:
+ *         type: string
+ */
 export default class Product extends Model {
   static fields () {
     return {

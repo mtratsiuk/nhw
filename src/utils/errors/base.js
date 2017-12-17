@@ -1,3 +1,15 @@
+/**
+ * @swagger
+ *
+ * definitions:
+ *   NhwError:
+ *     type: object
+ *     properties:
+ *       error:
+ *         type: string
+ *       message:
+ *         type: string
+ */
 class NhwError extends Error {
   constructor ({ message, ...data } = {}) {
     super(message)
