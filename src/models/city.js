@@ -1,5 +1,28 @@
 import MongoModel from './mongo-model'
 
+/**
+ * @swagger
+ *
+ * definitions:
+ *   City:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: string
+ *       name:
+ *         type: string
+ *       country:
+ *         type: string
+ *       capital:
+ *         type: boolean
+ *       location:
+ *         type: object
+ *         properties:
+ *           lat:
+ *             type: number
+ *           long:
+ *             type: number
+ */
 export default class City extends MongoModel {
   static fields () {
     return {

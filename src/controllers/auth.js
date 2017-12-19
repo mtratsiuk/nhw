@@ -3,6 +3,34 @@ import { BadArgumentsError, NotFoundError } from 'nhw/utils/errors'
 import controller from './controller'
 
 export default controller(({ router, userService, authService }) => {
+  /**
+   * @swagger
+   *
+   * /auth/signup:
+   *   post:
+   *     tags:
+   *     - auth
+   *     - user
+   *     description: Register new user
+   *     parameters:
+   *     - in: body
+   *       name: body
+   *       required: true
+   *       schema:
+   *         $ref: "#/definitions/User"
+   *     responses:
+   *       200:
+   *         description: New user created
+   *         schema:
+   *           type: object
+   *           properties:
+   *             user:
+   *               $ref: "#/definitions/User"
+   *             token:
+   *               type: string
+   *       400:
+   *         $ref: "#/definitions/NhwError"
+   */
   router.post('/signup', async (req, res, next) => {
     let user = await userService.getOneByName(req.body.name)
 
@@ -21,6 +49,34 @@ export default controller(({ router, userService, authService }) => {
     res.json(await getAuthorizedResponse(user))
   })
 
+  /**
+   * @swagger
+   *
+   * /auth/:
+   *   post:
+   *     tags:
+   *     - auth
+   *     - user
+   *     description: Authorize user
+   *     parameters:
+   *     - in: body
+   *       name: body
+   *       required: true
+   *       schema:
+   *         $ref: "#/definitions/User"
+   *     responses:
+   *       200:
+   *         description: Valid credentials provided
+   *         schema:
+   *           type: object
+   *           properties:
+   *             user:
+   *               $ref: "#/definitions/User"
+   *             token:
+   *               type: string
+   *       404:
+   *         $ref: "#/definitions/NhwError"
+   */
   router.post('/', async (req, res, next) => {
     const user = await userService.verifyUser(req.body)
 

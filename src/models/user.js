@@ -1,6 +1,20 @@
 import Sequelize from 'sequelize'
 import Model from './model'
 
+/**
+ * @swagger
+ *
+ * definitions:
+ *   User:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: number
+ *       name:
+ *         type: string
+ *       password:
+ *         type: string
+ */
 export default class User extends Model {
   static fields () {
     return {

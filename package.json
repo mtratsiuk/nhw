@@ -55,6 +55,8 @@
     "request": "^2.83.0",
     "sequelize": "^4.22.8",
     "stream-combiner": "^0.2.2",
+    "swagger-jsdoc": "^1.9.7",
+    "swagger-ui-express": "^2.0.13",
     "through2": "^2.0.3"
   }
 }
